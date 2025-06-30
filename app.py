@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify
-import hashlib, json
+import hashlib, json, os
 
 app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return 'Key Auth API работает. Используй POST на /auth.'
 
 @app.route('/auth', methods=['POST'])
 def auth():
@@ -13,10 +17,5 @@ def auth():
 
     return jsonify({'valid': hash_key in valid_keys})
 
-import os
-
 if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0", 
-        port=int(os.environ.get("PORT", 5000))
-    )
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
